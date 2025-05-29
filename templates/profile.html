@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Profile</h1>
+<p>This is your profile.</p>
+<p>User ID : {{current_user.id}}</p>
+<p>Clearance Authorized : {{current_user.clearance}}</p>
+
+
+{% endblock %}

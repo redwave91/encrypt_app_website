@@ -2,6 +2,6 @@
 
 ## How to Run
 
-1. Install dependencies:
+Install following dependencies:
 ```bash
-pip install flask
+pip install flask flask-login flask-sqlalchemy

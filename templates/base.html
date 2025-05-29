@@ -12,8 +12,10 @@
             <a class="navbar-brand" href="{{ url_for('home') }}">My Portfolio</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Public Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('public') }}">Public Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('encrypted') }}">Private Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
                 </ul>
             </div>
