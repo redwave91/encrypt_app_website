@@ -2,11 +2,25 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from models import db, User
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Loads variables from .env into the environment
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a secure random key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db.init_app(app)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
+
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -81,15 +95,28 @@ def contact():
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
-        
-        # Placeholder for future email/database integration
-        flash('Form submitted successfully!', 'success')
-        return redirect(url_for('contact'))
 
+        # Compose the email
+        msg = Message(
+            subject=f"New Contact Form Submission from {name}",
+            recipients=[app.config['MAIL_DEFAULT_SENDER']],
+            body=f"Name: {name}\nEmail: {email}\nMessage:\n{message}"
+        )
+
+        try:
+            mail.send(msg)
+            flash('Form submitted and email sent successfully!', 'success')
+        except Exception as e:
+            print(e)
+            flash('An error occurred while sending the email.', 'danger')
+
+        return redirect(url_for('contact'))
     return render_template('contact.html')
+
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
 
