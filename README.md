@@ -1,1 +1,7 @@
-# encrypt_app
+# Flask Portfolio Website
+
+## How to Run
+
+1. Install dependencies:
+```bash
+pip install flask
